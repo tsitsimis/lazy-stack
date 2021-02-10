@@ -1,0 +1,104 @@
+{
+    "data_asset_type": null,
+    "expectation_suite_name": "passenger.basic",
+    "expectations": [
+          {
+            "expectation_type": "expect_column_values_to_be_of_type",
+            "kwargs": {
+              "column": "passenger_id",
+              "type_": "int"
+            }
+          },
+          {
+            "expectation_type": "expect_column_values_to_be_unique",
+            "kwargs": {
+              "column": "passenger_id"
+            }
+          },
+      
+          {
+            "expectation_type": "expect_column_values_to_be_of_type",
+            "kwargs": {
+              "column": "survived",
+              "type_": "int"
+            }
+          },
+          {
+            "expectation_type": "expect_column_values_to_be_in_set",
+            "kwargs": {
+              "column": "survived",
+              "value_set": [0, 1]
+            }
+          },
+      
+          {
+            "expectation_type": "expect_column_values_to_be_of_type",
+            "kwargs": {
+              "column": "pclass",
+              "type_": "int"
+            }
+          },
+          {
+            "expectation_type": "expect_column_values_to_be_in_set",
+            "kwargs": {
+              "column": "pclass",
+              "value_set": [1, 2, 3]
+            }
+          },
+      
+          {
+            "expectation_type": "expect_column_values_to_be_of_type",
+            "kwargs": {
+              "column": "name",
+              "type_": "str"
+            }
+          },
+          {
+            "expectation_type": "expect_column_value_lengths_to_be_between",
+            "kwargs": {
+              "column": "name",
+              "max_value": 100
+            }
+          },
+      
+          {
+            "expectation_type": "expect_column_values_to_be_of_type",
+            "kwargs": {
+              "column": "sex",
+              "type_": "str"
+            }
+          },
+          {
+            "expectation_type": "expect_column_values_to_be_in_set",
+            "kwargs": {
+              "column": "sex",
+              "value_set": ["male", "female"]
+            }
+          },
+          {
+            "expectation_type": "expect_column_value_lengths_to_be_between",
+            "kwargs": {
+              "column": "sex",
+              "max_value": 10
+            }
+          },
+      
+          {
+            "expectation_type": "expect_column_values_to_be_of_type",
+            "kwargs": {
+              "column": "age",
+              "type_": "int"
+            }
+          },
+          {
+            "expectation_type": "expect_column_values_to_be_between",
+            "kwargs": {
+              "column": "age",
+              "min_value": 1
+            }
+          }
+    ],
+    "meta": {
+      "great_expectations_version": "0.13.7"
+    }
+  }
