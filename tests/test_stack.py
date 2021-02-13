@@ -51,7 +51,7 @@ def test_create_pydantic_models():
     assert all([type(model) == ModelMetaclass for name, model in stack.pydantic_models.items()])
 
 
-def test_create_crud_routers():
+def test_create_crud_routes():
     ge_dir = Path("./great_expectations/expectations").resolve()
     engine = create_engine("sqlite:///./db/sqlite.db")
     
@@ -67,7 +67,7 @@ def test_create_crud_routers():
     pydantic_model_names = stack.create_pydantic_models()
 
     # create CRUD routes
-    crud_app = stack.create_crud_routers(engine=engine)
+    crud_app = stack.create_crud_routes(engine=engine)
 
     assert type(crud_app) == FastAPI
 

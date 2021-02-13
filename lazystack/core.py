@@ -93,7 +93,7 @@ def ge_suite_to_sqla_table(suite: str, metadata: MetaData) -> Table:
 
 def sqla_core_to_orm(name, core_model):
     Base = declarative_base()
-    
+
     return type(
         name,
         (Base, ),
@@ -146,7 +146,7 @@ class LazyStack:
 
         return list(self.pydantic_models.keys())
 
-    def create_crud_routers(self, engine):
+    def create_crud_routes(self, engine):
         app = FastAPI()
         
         SessionLocal = sessionmaker(
