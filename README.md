@@ -1,6 +1,54 @@
 ![](docs/logos/logo.png)
 
-Automatically create SQLAlchemy models and CRUD routes just by defining data dictionaries
+Automatically create SQL Alchemy models from Great Expectations suites.
+
+The goal of this package is to automate the combination of a set of awesome existing tools commonly used in projects:
+- **[Great Expectations](https://greatexpectations.io/)**. Data testing, documentation, and profiling
+- **[SQL Alchemy](https://www.sqlalchemy.org/)**. The Python SQL Toolkit and Object Relational Mapper
+- **[Pydantic](https://pydantic-docs.helpmanual.io/)**. Data validation and settings management
+- **[FastAPI](https://fastapi.tiangolo.com/)**. Modern, fast (high-performance), web framework
+
+
+These tools can be glued together as follows:
+- From **Great Expectations** suites create **SQL Alchemy** models: *this package*
+- From **SQL Alchemy** models create **Pydantic** models: [Pydantic-SQLAlchemy](https://github.com/tiangolo/pydantic-sqlalchemy)
+- From **Pydantic** models create **FastAPI** routes: [FastAPI-CRUDRouter](https://github.com/awtkns/fastapi-crudrouter)
+
+
+> **Note**: This package is merely an opinionated combination of the above existing tools to automate some everyday tasks. For proper and extensive use of their capabilities use each tool independently.
+
+# How to use
+
+```python
+# app.py
+
+from sqlalchemy import create_engine
+from lazystack import LazyStack
+
+
+# Use existing or new Great Expectations suites as starting point to define data sources and constraints
+stack = LazyStack(ge_dir="./great_expectations/expectations")
+
+# Create SQLAlchemy models for each GE data source
+stack.create_sqla_models()
+
+# Create tables in the database
+engine = create_engine("sqlite://")
+stack.metadata.create_all(engine)
+
+# Create Pydantic models
+stack.create_pydantic_models()
+
+# Create CRUD routes
+fastapi_app = stack.create_crud_routes(engine=engine)
+```
+
+Then in terminal:
+```bash
+uvicorn app:fastapi_app --reload --port 8000
+```
+
+Go to your browser at [http://localhost:8000/docs](http://localhost:8000/docs) to see the created routes.
 
 
 # Motivation
