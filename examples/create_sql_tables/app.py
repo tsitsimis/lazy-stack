@@ -5,14 +5,14 @@ from lazystack import LazyStack
 
 
 # Initialize with Great Expectations
-builder = LazyStack(ge_dir="./great_expectations/expectations")
+stack = LazyStack(ge_dir="./great_expectations/expectations")
 
 # Create SQLAlchemy models
-builder.create_sqla_models()
+stack.create_sqla_models()
 engine = create_engine("sqlite:///./db/sqlite.db")
-builder.metadata.drop_all(engine, checkfirst=False)
-builder.metadata.create_all(engine, checkfirst=False)
+stack.metadata.drop_all(engine, checkfirst=False)
+stack.metadata.create_all(engine, checkfirst=False)
 
-# Create Pydantic models and fastAPI routes
-builder.create_pydantic_models()
-fastapi_app = builder.create_fastapi_routers(engine=engine)
+# Create Pydantic models and fastAPI CRUD routes
+stack.create_pydantic_models()
+fastapi_app = stack.create_fastapi_routers(engine=engine)
