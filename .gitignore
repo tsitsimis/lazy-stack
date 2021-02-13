@@ -1,3 +1,6 @@
+# SQLite
+*.db
+
 # dev notebooks
 _notebooks/
 
