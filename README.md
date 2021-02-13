@@ -105,7 +105,7 @@ async def get_one_employee(id: int):
 ```
 
 
-As you can see, there are 3 different places in the code where we define the same column names, their data types and constraints. This is prone to errors since in case of a single change in data requirements, we have to make sure that all updates are propagated.
+As you can see, there are 3 different places in the code (data dictionary, SQLAlchemy model, Pydantic model) where we define the same column names, their data types and constraints. This is prone to errors since in case of a single change in data requirements, we have to make sure that all updates are propagated.
 
 Also, creating models and routes for dozens of tables is boring and distracts us from our main (and more interesting) tasks.
 
