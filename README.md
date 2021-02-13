@@ -52,9 +52,11 @@ Go to your browser at [http://localhost:8000/docs](http://localhost:8000/docs) t
 
 
 # Motivation
-Defining data dictionaries (or data quality tests), table schemas, API response models and routes for consuming these tables involves a lot of repetitive and overlapping definitions. For example let's say we have an **employees** table:
+Defining data dictionaries (or data quality tests), table schemas, API response models and routes for consuming these tables involves a lot of repetitive and overlapping definitions. 
 
-**Data dictionary**
+For example, let's say we have an **employees** CSV dataset and we want to create data quality tests to ensure it is clean, then use it to populate a SQL table and finally expose a REST api to consume it. So we follow the below steps:
+
+**1. Data dictionary**
 
 First, we need to define the high-level business definition of what it should contain.
 
@@ -98,9 +100,9 @@ First, we need to define the high-level business definition of what it should co
 <br>
 <br>
 
-**Table schema**
+**2. Table schema**
 
-Then, define a SQLAlchemy model to query it
+Then, define a SQL Alchemy model to query it
 
 ```python
 from sqlalchemy import Table, Column, Integer, String, Float
@@ -117,7 +119,7 @@ employee = Table(
 ```
 <br>
 
-**API response model**
+**3. API response model**
 
 Finally, define API CRUD routes and respective response types
 
@@ -132,7 +134,7 @@ class Employee(BaseModel):
 ```
 <br>
 
-**API routes**
+**4. API routes**
 ```python
 from typing import List
 from fastapi import APIRouter
@@ -153,7 +155,7 @@ async def get_one_employee(id: int):
 ```
 
 
-As you can see, there are 3 different places in the code (data dictionary, SQLAlchemy model, Pydantic model) where we define the same column names, their data types and constraints. This is prone to errors since in case of a single change in data requirements, we have to make sure that all updates are propagated.
+As you can see, there are multiple places in the code (data dictionary, SQL Alchemy model, Pydantic model) where we define the same column names, their data types and constraints. This is prone to errors since in case of a single change in data requirements, we have to make sure that all updates are propagated.
 
 Also, creating models and routes for dozens of tables is boring and distracts us from our main (and more interesting) tasks.
 
