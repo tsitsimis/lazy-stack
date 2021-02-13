@@ -1,11 +1,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 
-from safage.core import SafageBuilder
+from lazystack.core import LazyStack
 
 
 # Initialize with Great Expectations
-builder = SafageBuilder(ge_dir="./great_expectations/expectations")
+builder = LazyStack(ge_dir="./great_expectations/expectations")
 
 # Create SQLAlchemy models
 builder.create_sqla_models()

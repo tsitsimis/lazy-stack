@@ -96,7 +96,7 @@ class Stack
 """
 
 
-class SafageBuilder:
+class LazyStack:
     def __init__(self, ge_dir: Union[str, Path]):
         self.ge_dir: Union[str, Path] = ge_dir
 
