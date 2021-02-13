@@ -1,6 +1,6 @@
 ![](docs/logos/logo.png)
 
-Automatically create SQL tables and CRUD REST routes for your tables just by defining data dictionaries
+Automatically create SQLAlchemy models and CRUD routes just by defining data dictionaries
 
 
 # Motivation
