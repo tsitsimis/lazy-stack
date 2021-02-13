@@ -7,6 +7,7 @@ Automatically create SQL tables and CRUD REST routes for your tables just by def
 Defining data dictionaries (or data quality tests), table schemas, API response models and routes for consuming these tables involves a lot of repetitive and overlapping definitions. For example let's say we have an **employees** table:
 
 **Data dictionary**
+
 First, we need to define the high-level business definition of what it should contain.
 
 <table>
@@ -50,6 +51,7 @@ First, we need to define the high-level business definition of what it should co
 <br>
 
 **Table schema**
+
 Then, define a SQLAlchemy model to query it
 
 ```python
@@ -68,6 +70,7 @@ employee = Table(
 <br>
 
 **API response model**
+
 Finally, define API CRUD routes and respective response types
 
 ```python
