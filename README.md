@@ -1,6 +1,6 @@
 ![](docs/logos/logo.png)
 
-<p style="display: flex; justify-content: center;">
+<p style="display: flex; justify-content: center; align-items: center;">
 <i>Automatically create SQL Alchemy models from Great Expectations suites.</i>
 </p>
 
