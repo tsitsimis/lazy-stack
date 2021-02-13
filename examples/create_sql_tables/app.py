@@ -15,4 +15,4 @@ stack.metadata.create_all(engine, checkfirst=False)
 
 # Create Pydantic models and fastAPI CRUD routes
 stack.create_pydantic_models()
-fastapi_app = stack.create_fastapi_routers(engine=engine)
+fastapi_app = stack.create_crud_routers(engine=engine)
