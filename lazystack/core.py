@@ -57,10 +57,15 @@ def ge_suite_to_sqla_columns(suite: str) -> dict:
         
         if ge_type == "str":
             all_columns_length_expectations = filter(lambda x: x["expectation_type"] == "expect_column_value_lengths_to_be_between", expectations)
-            column_length_expectations = filter(lambda x: x["kwargs"]["column"] == column_name, all_columns_length_expectations)
-            length = list(column_length_expectations)[0]["kwargs"]["max_value"]
+            column_length_expectations = list(filter(lambda x: x["kwargs"]["column"] == column_name, all_columns_length_expectations))
+            
+            if len(column_length_expectations) == 1:
+                length = column_length_expectations[0]["kwargs"]["max_value"]
+            else:
+                length = 100
+            
             kwargs = {"length": length}
-        
+
         column.type = ge_to_sqla_types(ge_type, **kwargs)
         
         if column_name == "id" or column_name.endswith("_id"):
@@ -86,17 +91,28 @@ def ge_suite_to_sqla_table(suite: str, metadata: MetaData) -> Table:
     )
 
 
-"""
-class Stack
-    def __init__(self, ge_dir: str, database_url: str)
-        * create SQLAlchemy models (tables)
-        * create actual DB tables
-        * create pydantic models from sqlalchemy models (tiangolo's module)
-        # create fastapi CRUD routes using FastAPI-CRUDRouter
-"""
+def sqla_core_to_orm(name, core_model):
+    Base = declarative_base()
+    
+    return type(
+        name,
+        (Base, ),
+        {"__table__": core_model}
+    )
 
 
 class LazyStack:
+    """Class to create SQLAlchemy models and CRUD routes from Great Expectations suites
+
+    Parameters
+    ----------
+    ge_dir : str or path object
+        Path of Great Expectations suites directory. By default, all suites in expectations directory
+        with the name `main.json` are read. For example, if the `great_expectations/expectations` has 
+        the sub-directories and suites: `employee/main.json` and `company/main.json`, then 2 tables will
+        be created: `employee` and `company`.
+    """
+
     def __init__(self, ge_dir: Union[str, Path]):
         self.ge_dir: Union[str, Path] = ge_dir
 
@@ -110,35 +126,27 @@ class LazyStack:
 
         self.suites = None
         self.sqla_models = None
-        self.sqla_orm_models = None
         self.pydantic_models = None
 
     def create_sqla_models(self):
         self.sqla_models: dict = {}
         for suite_name in self.suite_names:
-            suite: dict = json.load(open(self.ge_dir / suite_name / "basic.json", "r"))
+            suite: dict = json.load(open(self.ge_dir / suite_name / "main.json", "r"))
             table = ge_suite_to_sqla_table(suite=suite, metadata=self.metadata)
             self.sqla_models[suite_name] = table
 
         return list(self.metadata.tables.keys())
 
     def create_pydantic_models(self):
-        self.sqla_orm_models = {}
         self.pydantic_models = {}
-        
-        Base = declarative_base()
 
         for suite_name, sqla_model in self.sqla_models.items():
-            orm_table_class = type(
-                suite_name.title().replace('_', ''),
-                (Base, ),
-                {"__table__": sqla_model}
-            )
-
-            self.sqla_orm_models[suite_name] = orm_table_class
+            orm_table_class = sqla_core_to_orm(suite_name, sqla_model)
             self.pydantic_models[suite_name] = sqlalchemy_to_pydantic(orm_table_class)
 
-    def create_fastapi_routers(self, engine):
+        return list(self.pydantic_models.keys())
+
+    def create_crud_routers(self, engine):
         app = FastAPI()
         
         SessionLocal = sessionmaker(
@@ -156,15 +164,15 @@ class LazyStack:
                 session.close()
 
 
-        for model_name in self.pydantic_models.keys():
-            pydantic_model = self.pydantic_models[model_name]
-            sqla_orm_model = self.sqla_orm_models[model_name]
+        for name in self.pydantic_models.keys():
+            pydantic_model = self.pydantic_models[name]
+            sqla_orm_model = sqla_core_to_orm(name, self.sqla_models[name])
 
             router = SQLAlchemyCRUDRouter(
                 schema=pydantic_model,
                 db_model=sqla_orm_model,
                 db=get_db,
-                prefix=model_name
+                prefix=name
             )
 
             app.include_router(router)
