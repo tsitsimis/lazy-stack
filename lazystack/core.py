@@ -113,15 +113,18 @@ class LazyStack:
         be created: `employee` and `company`.
     """
 
-    def __init__(self, ge_dir: Union[str, Path]):
+    def __init__(self, ge_dir: Union[str, Path], metadata=None):
         self.ge_dir: Union[str, Path] = ge_dir
+        if metadata is None:
+            self.metadata = MetaData()
+        else:
+            self.metadata = metadata
 
         if type(self.ge_dir) == str:
             self.ge_dir = Path(self.ge_dir).resolve()
 
         self.suite_names: List[str] = [suite.stem for suite in self.ge_dir.iterdir() if not str(suite.stem).startswith(".")]
 
-        self.metadata = MetaData()
         self.engine = None
 
         self.suites = None
