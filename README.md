@@ -1,6 +1,6 @@
 ![](docs/logos/logo.png)
 
-Automatically create SQL Alchemy models from Great Expectations suites.
+*Automatically create SQL Alchemy models from Great Expectations suites.*
 
 The goal of this package is to automate the combination of a set of awesome existing tools commonly used in projects:
 - **[Great Expectations](https://greatexpectations.io/)**. Data testing, documentation, and profiling
@@ -15,7 +15,7 @@ These tools can be glued together as follows:
 - From **Pydantic** models create **FastAPI** routes: [FastAPI-CRUDRouter](https://github.com/awtkns/fastapi-crudrouter)
 
 
-> **Note**: This package is merely an opinionated combination of the above existing tools to automate some everyday tasks. For proper and extensive use of their capabilities use each tool independently.
+> **Note**: This package is merely an opinionated combination of the above existing tools to automate some common tasks. For proper and extensive use of their capabilities use each tool independently.
 
 # How to use
 
