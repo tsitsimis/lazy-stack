@@ -1,12 +1,13 @@
 ![](docs/logos/logo.png)
 
-Automatically create SQL tables and REST routes for your tables just by defining data dictionaries
+Automatically create SQL tables and CRUD REST routes for your tables just by defining data dictionaries
 
 
 # Motivation
-Defining data dictionaries (or data quality tests), table schemas and API response models and routes for consuming these tables involves a lot of repetitive and overlapping definitions. For example let's say we have an **employees** table:
+Defining data dictionaries (or data quality tests), table schemas, API response models and routes for consuming these tables involves a lot of repetitive and overlapping definitions. For example let's say we have an **employees** table:
 
 **Data dictionary**
+First, we need to define the high-level business definition of what it should contain.
 
 <table>
 <th>Column Name</th>
@@ -49,6 +50,7 @@ Defining data dictionaries (or data quality tests), table schemas and API respon
 <br>
 
 **Table schema**
+Then, define a SQLAlchemy model to query it
 
 ```python
 from sqlalchemy import Table, Column, Integer, String, Float
@@ -66,6 +68,7 @@ employee = Table(
 <br>
 
 **API response model**
+Finally, define API CRUD routes and respective response types
 
 ```python
 from pydantic import BaseModel
@@ -94,6 +97,8 @@ async def get_employees():
 async def get_one_employee(id: int):
     query = employee.select().where(employee.c.id == id)
     return await database.fetch_one(query)
+
+# etc
 ```
 
 
