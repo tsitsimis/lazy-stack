@@ -1,8 +1,11 @@
-![](docs/logos/logo.png)
-
-<p style="display: flex; justify-content: center; align-items: center;">
-<i>Automatically create SQL Alchemy models from Great Expectations suites.</i>
+<p align="center">
+    <img src="docs/logos/logo.png" />
 </p>
+
+<p align="center">
+    <em>Automatically create SQL Alchemy models from Great Expectations suites</em>
+</p>
+<br>
 
 The goal of this package is to automate the combination of a set of awesome existing tools commonly used in projects:
 - **[Great Expectations](https://greatexpectations.io/)**. Data testing, documentation, and profiling
